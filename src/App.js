@@ -1,11 +1,13 @@
 import './App.css';
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { useState, useEffect, useRef } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function App() {
   const [tasks, setTasks] = useState({})
   const [buttonPressed, setButtonPressed] = useState(false)
+  const entry = useRef();
+  const status = useRef();
 
   useEffect(() => {
     (async () => {
@@ -23,7 +25,31 @@ function App() {
       const response = await axios.put(`http://localhost:3000/tasks/${id}`, {
         status: statusChange
       })
+      if (response.status === 200) {
+        setButtonPressed(!buttonPressed)
+      } else {
+        console.log('Something went wrong')
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
+  const handleSubmit = async (evt) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/tasks/${id}`, {
+        entry: entry.current.value,
+        status: "to-do"
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/tasks/${id}`, {
+      })
       if (response.status === 200) {
         setButtonPressed(!buttonPressed)
       } else {
@@ -71,7 +97,7 @@ function App() {
                       return (
                         <div className='listItem'>
                           <Link to={`/items/${item._id}`}><li style={{ textDecoration: 'line-through' }}>{item.entry}</li></Link>
-                          <button className='button' onClick={() => { handleClick("to-do", item._id) }}>Undo</button>
+                          <button className='button' onClick={() => { handleClick("to-do", item._id) }}>To-Do</button>
                           <button onClick={() => { handleDelete(item._id) }} className="button">Delete</button>
                         </div>
                       )
