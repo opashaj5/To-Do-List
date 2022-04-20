@@ -74,11 +74,11 @@ function App() {
               <h2>To Do Items:</h2>
               <ul>
                 {
-                  items["to-do"] ?
-                    items["to-do"].map((item, idx) => {
+                  tasks["to-do"] ?
+                    tasks["to-do"].map((item, idx) => {
                       return (
                         <div className='listItem'>
-                          <Link to={`/items/${item._id}`}><li>{item.entry}</li></Link>
+                          <Link to={`/tasks/${item._id}`}><li>{item.entry}</li></Link>
                           <button onClick={() => { handleClick("completed", item._id) }} className="button">Complete</button>
                           <button onClick={() => { handleDelete(item._id) }} className="button">Delete</button> </div>
                       )
@@ -92,11 +92,11 @@ function App() {
               <h2>Completed:</h2>
               <ul>
                 {
-                  items["completed"] ?
-                    items["completed"].map((item, idx) => {
+                  tasks["completed"] ?
+                    tasks["completed"].map((item, idx) => {
                       return (
                         <div className='listItem'>
-                          <Link to={`/items/${item._id}`}><li style={{ textDecoration: 'line-through' }}>{item.entry}</li></Link>
+                          <Link to={`/tasks/${item._id}`}><li style={{ textDecoration: 'line-through' }}>{item.entry}</li></Link>
                           <button className='button' onClick={() => { handleClick("to-do", item._id) }}>To-Do</button>
                           <button onClick={() => { handleDelete(item._id) }} className="button">Delete</button>
                         </div>
