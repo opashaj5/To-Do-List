@@ -7,7 +7,6 @@ function App() {
   const [tasks, setTasks] = useState({})
   const [buttonPressed, setButtonPressed] = useState(false)
   const entry = useRef();
-  const status = useRef();
 
   useEffect(() => {
     (async () => {
@@ -37,9 +36,9 @@ function App() {
 
   const handleSubmit = async (evt) => {
     try {
-      const response = await axios.post(`http://localhost:3000/tasks/${id}`, {
+      const response = await axios.post('http://localhost:3000/tasks', {
         entry: entry.current.value,
-        status: "to-do"
+        status: "TO-DO"
       });
     } catch (err) {
       console.log(err);
@@ -64,49 +63,71 @@ function App() {
     <div className="App">
       <div className="container">
         <div id="to-do" className="section">
+          <h1>My To Do List:</h1>
+          <p className='newItem'>New Item</p>
+          <form onSubmit={handleSubmit}>
+            <input type="text" ref={entry} />
+          </form>
+          <h2>To Do Items:</h2>
           <div className="list">
-            <h1>My To Do List:</h1>
-            <p className='newItem'>New Item</p>
-            <form onSubmit={handleSubmit}>
-              <input type="text" ref={entry} />
-            </form>
-            <div>
-              <h2>To Do Items:</h2>
-              <ul>
-                {
-                  tasks["to-do"] ?
-                    tasks["to-do"].map((item, idx) => {
-                      return (
-                        <div className='listItem'>
-                          <Link to={`/tasks/${item._id}`}><li>{item.entry}</li></Link>
-                          <button onClick={() => { handleClick("completed", item._id) }} className="button">Complete</button>
-                          <button onClick={() => { handleDelete(item._id) }} className="button">Delete</button> </div>
-                      )
-                    })
-                    :
-                    ""
-                }
-              </ul>
-            </div>
-            <div>
-              <h2>Completed:</h2>
-              <ul>
-                {
-                  tasks["completed"] ?
-                    tasks["completed"].map((item, idx) => {
-                      return (
-                        <div className='listItem'>
-                          <Link to={`/tasks/${item._id}`}><li style={{ textDecoration: 'line-through' }}>{item.entry}</li></Link>
-                          <button className='button' onClick={() => { handleClick("to-do", item._id) }}>To-Do</button>
-                          <button onClick={() => { handleDelete(item._id) }} className="button">Delete</button>
-                        </div>
-                      )
-                    })
-                    :
-                    ""
-                }
-              </ul>
-            </div>
+            {
+              tasks["TO-DO"] ?
+                tasks["TO-DO"].map((item, idx) => {
+                  return (
+                    <div className="task" key={idx}>
+                      <Link to={`/${item._id}`}>{item.entry}</Link>
+                      <div>
+                        <button onClick={() => { handleClick("COMPLETED", item._id) }} className="button">Completed</button>
+                        {/* <button onClick={() => { handleDelete(item._id) }} className="button">Remove</button> */}
+                      </div>
+                    </div>
+                  )
+                })
+                :
+                ""
+            }
+          </div>
+        </div>
+        {/* <div id="pending" className="section">
+          <h2>Pending</h2>
+          <div className="list">
+            {
+              tasks["PENDING"] ?
+                tasks["PENDING"].map((item, idx) => {
+                  return (
+                    <div className="task" key={idx}>
+                      <Link to={`/${item._id}`}>{item.entry}</Link>
+                      <div>
+                        <button onClick={() => { handleClick("TO-DO", item._id) }} className="button">To-Do</button>
+                        <button onClick={() => { handleClick("COMPLETED", item._id) }} className="button">Completed</button>
+                      </div>
+                    </div>
+                  )
+                })
+                :
+                ""
+            }
+          </div>
+        </div> */}
+        <div id="completed" className="section">
+          <h2>Completed</h2>
+          <div className="list">
+            {
+              tasks["COMPLETED"] ?
+                tasks["COMPLETED"].map((item, idx) => {
+                  return (
+                    <div className="task" key={idx}>
+                      <Link to={`/${item._id}`}><li style={{ textDecoration: 'line-through' }}>{item.entry}</li></Link>
+                      <div>
+                        <button onClick={() => { handleClick("TO-DO", item._id) }} className="button">To-Do</button>
+                        <button onClick={() => { handleDelete(item._id) }} className="button">Remove</button>
+                      </div>
+                    </div>
+                  )
+                })
+                :
+                ""
+            }
           </div>
         </div>
       </div>

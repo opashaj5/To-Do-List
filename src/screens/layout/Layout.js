@@ -5,7 +5,6 @@ const Layout = () => {
     return (
         <div className="layout">
             <header>
-                <h1 className="title">Ornela's To Do List</h1>
             </header>
             <main>
                 <Outlet />
