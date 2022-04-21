@@ -1,7 +1,6 @@
 import './App.css';
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 function App() {
   const [tasks, setTasks] = useState({})
@@ -75,11 +74,9 @@ function App() {
                 tasks["TO-DO"].map((item, idx) => {
                   return (
                     <div className="task" key={idx}>
-                      <Link to={`/${item._id}`}>{item.entry}</Link>
-                      <div>
-                        <button onClick={() => { handleClick("COMPLETED", item._id) }} className="button">Completed</button>
-                        {/* <button onClick={() => { handleDelete(item._id) }} className="button">Remove</button> */}
-                      </div>
+                      <li>{item.entry}</li>
+                      <button onClick={() => { handleClick("COMPLETED", item._id) }} className="button">Completed</button>
+                      {/* <button onClick={() => { handleDelete(item._id) }} className="button">Remove</button> */}
                     </div>
                   )
                 })
@@ -117,11 +114,9 @@ function App() {
                 tasks["COMPLETED"].map((item, idx) => {
                   return (
                     <div className="task" key={idx}>
-                      <Link to={`/${item._id}`}><li style={{ textDecoration: 'line-through' }}>{item.entry}</li></Link>
-                      <div>
-                        <button onClick={() => { handleClick("TO-DO", item._id) }} className="button">To-Do</button>
-                        <button onClick={() => { handleDelete(item._id) }} className="button">Remove</button>
-                      </div>
+                      <li style={{ textDecoration: 'line-through' }}>{item.entry}</li>
+                      <button onClick={() => { handleClick("TO-DO", item._id) }} className="button">To-Do</button>
+                      <button onClick={() => { handleDelete(item._id) }} className="button">Remove</button>
                     </div>
                   )
                 })
